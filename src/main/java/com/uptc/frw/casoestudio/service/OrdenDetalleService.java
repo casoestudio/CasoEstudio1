@@ -2,6 +2,7 @@ package com.uptc.frw.casoestudio.service;
 
 import com.uptc.frw.casoestudio.models.OrdenDetalle;
 import com.uptc.frw.casoestudio.repository.OrdenDetalleRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,10 +28,14 @@ public class OrdenDetalleService {
 
     public OrdenDetalle update(OrdenDetalle ordenDetalle) {
         OrdenDetalle existingDetalle = findById(ordenDetalle.getIdDetalle());
+        if (existingDetalle == null) {
+            throw new EntityNotFoundException("Detalle de Orden no encontrado con ID: " + ordenDetalle.getIdDetalle());
+        }
         existingDetalle.setCantidad(ordenDetalle.getCantidad());
         existingDetalle.setPrecioVenta(ordenDetalle.getPrecioVenta());
-        return save(existingDetalle);
+        return ordenDetalleRepository.save(existingDetalle);
     }
+
 
     public void delete(Long id) {
         ordenDetalleRepository.deleteById(id);

@@ -66,11 +66,12 @@ public class Producto {
         return id;
     }
 
-    public Object getDescripcion() {
-    return nombre;
+    public String getDescripcion() {
+        return nombre;
     }
 
-    public void setDescripcion(Object descripcion) {
-
+    public void setDescripcion(String descripcion) {
+        this.nombre = descripcion;
     }
+
 }

@@ -2,6 +2,7 @@ package com.uptc.frw.casoestudio.service;
 
 import com.uptc.frw.casoestudio.models.Producto;
 import com.uptc.frw.casoestudio.repository.ProductoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,11 +27,15 @@ public class ProductoService {
     }
 
     public Producto update(Producto producto) {
-        Producto existingProducto = findById(producto.getIdProducto());
+        Producto existingProducto = findById(producto.getId());
+        if (existingProducto == null) {
+            throw new EntityNotFoundException("Producto no encontrado con ID: " + producto.getId());
+        }
         existingProducto.setNombre(producto.getNombre());
-        existingProducto.setDescripcion(producto.getDescripcion());
-        return save(existingProducto);
+        existingProducto.setPrecioUnitario(producto.getPrecioUnitario());
+        return productoRepository.save(existingProducto);
     }
+
 
     public void delete(Long id) {
         productoRepository.deleteById(id);

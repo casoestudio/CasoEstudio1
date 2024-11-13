@@ -13,7 +13,7 @@ public class ClienteService {
     @Autowired
     private ClienteService clienteService;
 
-    public List<Cliente> findAll() {
+    public List<Cliente> listarClientes() {
         return clienteRepository.findAll();
     }
 
@@ -39,10 +39,10 @@ public class ClienteService {
         return clienteRepository.save(cliente);
     }
 
-    public Cliente updateCliente(Cliente cliente) {
+    public Cliente updateCliente(long cliente) {
         return clienteRepository.save(cliente);
     }
-    public void deleteCliente(Cliente cliente) {
+    public void deleteCliente(long cliente) {
 
     }
 

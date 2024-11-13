@@ -20,6 +20,8 @@ public class TrabajadorController {
         return trabajadorService.findAll();
     }
 
+
+
     @GetMapping("/{id}")
     public Trabajador getById(@PathVariable Long id) {
         return trabajadorService.findById(id);

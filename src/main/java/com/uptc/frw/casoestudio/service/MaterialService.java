@@ -9,7 +9,7 @@ import java.util.List;
 public class MaterialService {
     @Autowired
     private MaterialRepository materialRepository;
-    public List<Material> findAll() {
+    public List<Material> listarMateriales() {
         return materialRepository.findAll();
     }
 
@@ -27,8 +27,6 @@ public class MaterialService {
     materialOne.setNombreMaterial(material.getNombreMaterial());
     return materialRepository.save(materialOne);
     }
-
-
 
 
     public void deleteMaterial(Material material) {
