@@ -4,48 +4,51 @@ import com.uptc.frw.casoestudio.models.Material;
 import com.uptc.frw.casoestudio.service.MaterialService;
 import com.uptc.frw.casoestudio.service.logs.OperacionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/materiales")
+@RequestMapping("/materiales")
 public class MaterialController {
 
     private final MaterialService materialService;
+    private final OperacionService operacionService;
 
     @Autowired
-    public MaterialController(MaterialService materialService) {
+    public MaterialController(MaterialService materialService, OperacionService operacionService) {
         this.materialService = materialService;
+        this.operacionService = operacionService;
     }
 
-    private OperacionService operacionService;
-
     @GetMapping
-    public List<Material> getAllMaterials() {
+    public List<Material> obtenerMateriales() {
+        operacionService.registrarLog("material", "get", "Consulta todos los materiales");
         return materialService.getAllMaterials();
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Material> getMaterialById(@PathVariable Long id) {
-        return materialService.getMaterialById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    @GetMapping("{id}")
+    public Optional<Material> obtenerMaterialPorId(@PathVariable long id) {
+        operacionService.registrarLog("material", "get", "Consulta el material por id: " + id);
+        return materialService.getMaterialById(id);
     }
+
     @PostMapping
-    public Material createMaterial(@RequestBody Material material) {
+    public Material crearMaterial(@RequestBody Material material) {
+        operacionService.registrarLog("material", "post", "Crear el material: " + material);
         return materialService.saveMaterial(material);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Material> updateMaterial(@PathVariable Long id, @RequestBody Material material) {
-        Material updatedMaterial = materialService.updateMaterial(id, material);
-        return updatedMaterial != null ? ResponseEntity.ok(updatedMaterial) : ResponseEntity.notFound().build();
-    }
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMaterial(@PathVariable Long id) {
+    public void eliminarMaterialPorId(@PathVariable long id) {
+        operacionService.registrarLog("material", "delete", "Elimina el material por id: " + id);
         materialService.deleteMaterial(id);
-        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping
+    public Material modificarMaterial(@RequestParam long id, @RequestBody Material material) {
+        operacionService.registrarLog("material", "put", "Modifica el material por id: " + id);
+        return materialService.updateMaterial(id, material);
     }
 }

@@ -11,8 +11,12 @@ import java.util.UUID;
 @Service
 public class OperacionService {
 
-    @Autowired
     private OperacionRepository operacionRepository;
+
+    @Autowired
+    public OperacionService(OperacionRepository operacionRepository) {
+        this.operacionRepository = operacionRepository;
+    }
 
     public void registrarLog(String entidad, String operacion, String detalles){
         Operacion log = new Operacion();

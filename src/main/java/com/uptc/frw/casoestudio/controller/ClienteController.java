@@ -13,12 +13,15 @@ import java.util.List;
 @RequestMapping("clientes")
 public class ClienteController {
 
-    @Autowired
-    private ClienteService clienteService;
 
-//prueba1
+    private final ClienteService clienteService;
+    private final OperacionService operacionService;
+
     @Autowired
-    private OperacionService operacionService;
+   public ClienteController(ClienteService clienteService, OperacionService operacionService) {
+        this.clienteService = clienteService;
+        this.operacionService = operacionService;
+    }
 
     @GetMapping
     public List<Cliente> listarClientes() {
@@ -26,17 +29,14 @@ public class ClienteController {
         return clienteService.listarClientes();
     }
 
-
     @GetMapping("/{id}")
     public Cliente buscarClientePorId(@PathVariable long id) {
         operacionService.registrarLog("cliente", "get", "Consultar cliente por id: " + id);
-        Cliente cliente = clienteService.findById((int) id);
-        return cliente != null ? cliente : null;
+        return clienteService.findById();
     }
 
-
     @PostMapping
-    public Cliente guardarCliente(@RequestBody Cliente cliente) {
+    public Cliente crearCliente(@RequestBody Cliente cliente) {
         operacionService.registrarLog("cliente", "post", "Crear cliente: "+ cliente);
         return clienteService.saveCliente(cliente);
     }

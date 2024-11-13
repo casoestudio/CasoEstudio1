@@ -21,7 +21,6 @@ public class ProductoService {
     public List<Producto> findAll() {
         return productoRepository.findAll();
     }
-
     public Producto findById(Long id) {
         return productoRepository.findById(id).orElse(null);
     }
@@ -30,7 +29,7 @@ public class ProductoService {
         return productoRepository.save(producto);
     }
 
-    public Producto update(Producto producto) {
+    public Producto update(long id, Producto producto) {
         Producto existingProducto = findById(producto.getId());
         if (existingProducto == null) {
             throw new EntityNotFoundException("Producto no encontrado con ID: " + producto.getId());

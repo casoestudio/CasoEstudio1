@@ -8,45 +8,49 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/maquinas")
 public class MaquinaController {
 
-    @Autowired
-    private Maquinaservice maquinaservice;
+    private final Maquinaservice maquinaservice;
+    private final OperacionService operacionService;
 
     @Autowired
-    private OperacionService operacionService;
+    public MaquinaController(Maquinaservice maquinaService, OperacionService operacionService) {
+        this.maquinaservice = maquinaService;
+        this.operacionService = operacionService;
+    }
 
-    @GetMapping
+        @GetMapping
     public List<Maquina> encuentraMaquina() {
         operacionService.registrarLog("Maquina", "get", "Consultar todas las maquinas");
         return maquinaservice.findMaquinas();
     }
 
-
-    @GetMapping("/{id}")
-    public Maquina buscarMaquinaPorNumerodeSerie(@PathVariable long id) {
-        operacionService.registrarLog("maquina", "get", "Consultar maquina por Numero de serie: " + id);
-        return maquinaservice.findMaquina(id).orElse(null);
+    @GetMapping("{id}")
+    public Optional<Maquina> obtenerMaquinaPorId(@PathVariable long id) {
+        operacionService.registrarLog("maquina", "get", "Consulta la maquina por id: " + id);
+        return maquinaservice.findMaquina(id);
     }
 
     @PostMapping
-    public Maquina guardarMaquina(@RequestBody Maquina maquina) {
-        operacionService.registrarLog("maquina", "post", "Crear maquina: "+ maquina);
+    public Maquina crearMaquina(@RequestBody Maquina maquina) {
+        operacionService.registrarLog("maquina", "post", "Crear la maquina: " + maquina);
         return maquinaservice.save(maquina);
     }
 
     @DeleteMapping("/{id}")
-    public void eliminarMaquina(@PathVariable long id) {
-        operacionService.registrarLog("maquina", "delete", "Eliminar maquina por id: " + id);
+    public void eliminarMaquinaPorId(@PathVariable long id) {
+        operacionService.registrarLog("maquina", "delete", "Elimina la maquina por id: " + id);
         maquinaservice.deleteMaquina(id);
     }
 
-    public Maquina actualizarMaquina(@RequestBody Maquina maquina, @RequestParam long id) {
-        operacionService.registrarLog("maquina", "put", "Actualizar maquina por id: " + id);
+    @PutMapping
+    public Maquina modificarMaquina(@RequestParam long id, @RequestBody Maquina maquina) {
+        operacionService.registrarLog("maquina", "put", "Modifica la maquina por id: " + id);
         return maquinaservice.update(id, maquina);
     }
-
 
 }
