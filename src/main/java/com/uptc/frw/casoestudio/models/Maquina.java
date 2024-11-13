@@ -1,9 +1,6 @@
 package com.uptc.frw.casoestudio.models;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToMany;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 import java.time.LocalDate;
 import java.util.Set;
@@ -11,21 +8,30 @@ import java.util.Set;
 @Entity
 public class Maquina {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
     private String numeroSerie;
     private String marca;
     private String modelo;
     private LocalDate fechaCompra;
 
+    @ManyToMany(mappedBy = "maquinas") // Mapeamos con la propiedad 'maquinas' de la clase Producto
+    private Set<Producto> productos;
+
     @ManyToMany(mappedBy = "maquinas")
     private Set<Trabajador> trabajadores;
-
-    @OneToMany(mappedBy = "maquinas")
-    private Set<Producto> productos;
 
 
     public Maquina() {
     }
 
+    public Maquina(long id, String numeroSerie, String marca, String modelo, LocalDate fechaCompra, Set<Trabajador> trabajadores, Set<Producto> productos) {
+        this.id = id;
+        this.numeroSerie = numeroSerie;
+        this.marca = marca;
+        this.modelo = modelo;
+        this.fechaCompra = fechaCompra;
+           }
 
     public String getNumeroSerie() {
         return numeroSerie;
@@ -75,11 +81,19 @@ public class Maquina {
         this.productos = productos;
     }
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     @Override
     public String toString() {
         return "Maquina{" +
-                "numeroSerie='" + numeroSerie + '\'' +
+                "id=" + id +
+                ", numeroSerie='" + numeroSerie + '\'' +
                 ", marca='" + marca + '\'' +
                 ", modelo='" + modelo + '\'' +
                 ", fechaCompra=" + fechaCompra +

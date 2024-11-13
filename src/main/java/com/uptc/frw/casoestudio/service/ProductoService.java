@@ -11,9 +11,13 @@ import java.util.List;
 @Service
 public class ProductoService {
 
-    @Autowired
-    private ProductoRepository productoRepository;
+    private final ProductoRepository productoRepository;
 
+
+    @Autowired
+    public ProductoService(ProductoRepository productoRepository) {
+        this.productoRepository = productoRepository;
+    }
     public List<Producto> findAll() {
         return productoRepository.findAll();
     }

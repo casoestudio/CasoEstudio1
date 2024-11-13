@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
 @RestController
 @RequestMapping("clientes")
 public class ClienteController {
@@ -15,7 +16,7 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-
+//prueba1
     @Autowired
     private OperacionService operacionService;
 
@@ -28,9 +29,11 @@ public class ClienteController {
 
     @GetMapping("/{id}")
     public Cliente buscarClientePorId(@PathVariable long id) {
-        operacionService.registrarLog("cliente", "get", "Consultar cliente por id: "+ id);
-        return clienteService.findById((long)id).orElse(null);
+        operacionService.registrarLog("cliente", "get", "Consultar cliente por id: " + id);
+        Cliente cliente = clienteService.findById((int) id);
+        return cliente != null ? cliente : null;
     }
+
 
     @PostMapping
     public Cliente guardarCliente(@RequestBody Cliente cliente) {
@@ -41,13 +44,13 @@ public class ClienteController {
     @DeleteMapping("/{id}")
     public void eliminarCliente(@PathVariable long id) {
         operacionService.registrarLog("cliente", "delete", "Eliminar cliente por id: "+ id);
-        clienteService.deleteCliente(id);
+        clienteService.deleteCliente((int)id);
     }
 
     @PutMapping
     public Cliente actualizarCliente(@RequestBody Cliente cliente, @RequestParam long id) {
         operacionService.registrarLog("cliente", "put", "Actualizar cliente por id: "+ id);
-        return clienteService.updateCliente(id);
+        return clienteService.updateCliente(id, cliente);
     }
 
 }

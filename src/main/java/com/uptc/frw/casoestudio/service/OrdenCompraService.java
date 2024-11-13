@@ -6,42 +6,42 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrdenCompraService {
 
-@Autowired
-    private OrdenCompraRepository ordenCompraRepository;
 
-    public List<OrdenCompra> findAll() {
+    private final OrdenCompraRepository ordenCompraRepository;
+
+    @Autowired
+    public OrdenCompraService(OrdenCompraRepository ordenCompraRepository) {
+        this.ordenCompraRepository = ordenCompraRepository;
+    }
+
+    public List<OrdenCompra> getAllOrdenes() {
         return ordenCompraRepository.findAll();
     }
 
-    public OrdenCompra findById(Long id) {
-        return ordenCompraRepository.findById(id).orElse(null);
+    public Optional <OrdenCompra> getOrdenById(Long id) {
+        return ordenCompraRepository.findById(id);
     }
 
     public OrdenCompra save(OrdenCompra ordenCompra) {
         return ordenCompraRepository.save(ordenCompra);
     }
 
-    public OrdenCompra update(OrdenCompra ordenCompra) {
-        OrdenCompra existingOrden = findById(ordenCompra.getIdOrden());
-        existingOrden.setFechaCompra(ordenCompra.getFechaCompra());
-        existingOrden.setFechaEntregaEsperada(ordenCompra.getFechaEntregaEsperada());
-        existingOrden.setFechaEntrega(ordenCompra.getFechaEntrega());
-        return save(existingOrden);
+    public OrdenCompra update(Long id, OrdenCompra ordenCompra) {
+        if (ordenCompraRepository.existsById(id)) {
+            ordenCompra.setIdOrden(id);
+            return ordenCompraRepository.save(ordenCompra);
+        } else {
+            return null;
+        }
     }
-
     public void delete(Long id) {
         ordenCompraRepository.deleteById(id);
     }
-
-
-
-
-
-
 
 
 }

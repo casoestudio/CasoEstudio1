@@ -7,44 +7,44 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TrabajadorService {
 
-    @Autowired
     private TrabajadorRepository trabajadorRepository;
+
+    @Autowired
+    public TrabajadorService(TrabajadorRepository trabajadorRepository) {
+        this.trabajadorRepository = trabajadorRepository;
+    }
 
     public List<Trabajador> findAll() {
         return trabajadorRepository.findAll();
     }
 
-    public Trabajador findById(Long id) {
-        return trabajadorRepository.findById(id).orElse(null);
+    public Optional<Trabajador> findById(Long id) {
+        return trabajadorRepository.findById(id);
     }
+
 
     public Trabajador save(Trabajador trabajador) {
         return trabajadorRepository.save(trabajador);
     }
 
-    public Trabajador update(Trabajador trabajador) {
-        Trabajador existingTrabajador = findById(trabajador.getId());
-        if (existingTrabajador == null) {
-            throw new EntityNotFoundException("Trabajador no encontrado con ID: " + trabajador.getId());
+    public Trabajador update(Long id, Trabajador trabajador) {
+        if (trabajadorRepository.existsById(id)) {
+            trabajador.setId(id);  // Aseguramos que el ID sea el correcto para la actualización
+            return trabajadorRepository.save(trabajador);
+        } else {
+            return null; // Retornamos null si no se encuentra el trabajador con el ID especificado
         }
-        existingTrabajador.setNombre(trabajador.getNombre());
-        existingTrabajador.setApellido(trabajador.getApellido());
-        existingTrabajador.setFechaNacimiento(trabajador.getFechaNacimiento());
-        existingTrabajador.setDireccion(trabajador.getDireccion());
-        existingTrabajador.setHabilidades(trabajador.getHabilidades());
-        return trabajadorRepository.save(existingTrabajador);
     }
-
 
     public void delete(Long id) {
         trabajadorRepository.deleteById(id);
     }
-
-
 }
+
 
 

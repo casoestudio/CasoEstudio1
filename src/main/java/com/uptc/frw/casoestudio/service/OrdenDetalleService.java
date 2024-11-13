@@ -7,35 +7,39 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class OrdenDetalleService {
 
-    @Autowired
+
     private OrdenDetalleRepository ordenDetalleRepository;
+
+    @Autowired
+    public OrdenDetalleService(OrdenDetalleRepository ordenDetalleRepository) {
+        this.ordenDetalleRepository = ordenDetalleRepository;
+    }
 
     public List<OrdenDetalle> findAll() {
         return ordenDetalleRepository.findAll();
     }
-
-    public OrdenDetalle findById(Long id) {
-        return ordenDetalleRepository.findById(id).orElse(null);
+    public Optional<OrdenDetalle> findById(Long id) {
+        return ordenDetalleRepository.findById(id);
     }
+
 
     public OrdenDetalle save(OrdenDetalle ordenDetalle) {
         return ordenDetalleRepository.save(ordenDetalle);
     }
 
-    public OrdenDetalle update(OrdenDetalle ordenDetalle) {
-        OrdenDetalle existingDetalle = findById(ordenDetalle.getIdDetalle());
-        if (existingDetalle == null) {
-            throw new EntityNotFoundException("Detalle de Orden no encontrado con ID: " + ordenDetalle.getIdDetalle());
+    public OrdenDetalle update(Long id, OrdenDetalle ordenDetalle) {
+        if (ordenDetalleRepository.existsById(id)) {
+            ordenDetalle.setIdDetalle(id);
+            return ordenDetalleRepository.save(ordenDetalle);
+        } else {
+            return null;
         }
-        existingDetalle.setCantidad(ordenDetalle.getCantidad());
-        existingDetalle.setPrecioVenta(ordenDetalle.getPrecioVenta());
-        return ordenDetalleRepository.save(existingDetalle);
     }
-
 
     public void delete(Long id) {
         ordenDetalleRepository.deleteById(id);

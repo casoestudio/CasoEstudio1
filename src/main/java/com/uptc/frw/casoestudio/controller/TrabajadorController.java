@@ -3,6 +3,7 @@ package com.uptc.frw.casoestudio.controller;
 import com.uptc.frw.casoestudio.models.Trabajador;
 import com.uptc.frw.casoestudio.service.TrabajadorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -11,20 +12,23 @@ import java.util.List;
 @RequestMapping("/api/trabajadores")
 public class TrabajadorController {
 
+    private TrabajadorService trabajadorService;
 
     @Autowired
-    private TrabajadorService trabajadorService;
+    public TrabajadorController(TrabajadorService trabajadorService) {
+        this.trabajadorService = trabajadorService;
+    }
 
     @GetMapping
     public List<Trabajador> getAll() {
         return trabajadorService.findAll();
     }
 
-
-
     @GetMapping("/{id}")
-    public Trabajador getById(@PathVariable Long id) {
-        return trabajadorService.findById(id);
+    public ResponseEntity<Trabajador> getById(@PathVariable Long id) {
+        return trabajadorService.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PostMapping
@@ -32,9 +36,10 @@ public class TrabajadorController {
         return trabajadorService.save(trabajador);
     }
 
-    @PutMapping
-    public Trabajador update(@RequestBody Trabajador trabajador) {
-        return trabajadorService.update(trabajador);
+    @PutMapping("/{id}")
+    public ResponseEntity<Trabajador> update(@PathVariable Long id, @RequestBody Trabajador trabajador) {
+        Trabajador updatedTrabajador = trabajadorService.update(id, trabajador);
+        return updatedTrabajador != null ? ResponseEntity.ok(updatedTrabajador) : ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")

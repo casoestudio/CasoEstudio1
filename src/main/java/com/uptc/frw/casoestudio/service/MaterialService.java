@@ -5,32 +5,37 @@ import com.uptc.frw.casoestudio.repository.MaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
+import java.util.Optional;
 
 public class MaterialService {
+
+    private final MaterialRepository materialRepository;
+
     @Autowired
-    private MaterialRepository materialRepository;
-    public List<Material> listarMateriales() {
+    public MaterialService(MaterialRepository materialRepository) {
+        this.materialRepository = materialRepository;
+    }
+    public List<Material> getAllMaterials() {
         return materialRepository.findAll();
     }
-
-    public Material findById(Long id) {
-        return materialRepository.findById(id).orElse(null);
+    public Optional<Material> getMaterialById(Long id) {
+        return materialRepository.findById(id);
     }
 
-
-    public Material save(Material material) {
+    public Material saveMaterial(Material material) {
         return materialRepository.save(material);
     }
-
-    public Material update(Material material) {
-    Material materialOne = findById(material.getIdMaterial()); // Usa el Long directamente
-    materialOne.setNombreMaterial(material.getNombreMaterial());
-    return materialRepository.save(materialOne);
+    public Material updateMaterial(Long id, Material material) {
+        if (materialRepository.existsById(id)) {
+            material.setIdMaterial(id);
+            return materialRepository.save(material);
+        } else {
+            return null; // Maneja el caso de entidad no encontrada
+        }
     }
 
-
-    public void deleteMaterial(Material material) {
-        materialRepository.deleteById(material.getIdMaterial());
+    public void deleteMaterial(Long id) {
+        materialRepository.deleteById(id);
     }
 
 
