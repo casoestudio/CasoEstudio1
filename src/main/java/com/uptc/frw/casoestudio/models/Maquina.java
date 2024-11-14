@@ -8,7 +8,8 @@ import java.util.Set;
 @Entity
 public class Maquina {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator = "maquina_seq")
+    @SequenceGenerator(name = "maquina_seq_gen", sequenceName = "maquina_seq", allocationSize = 1)
     private long id;
     private String numeroSerie;
     private String marca;

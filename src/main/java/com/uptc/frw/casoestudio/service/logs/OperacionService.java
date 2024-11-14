@@ -11,7 +11,7 @@ import java.util.UUID;
 @Service
 public class OperacionService {
 
-    private OperacionRepository operacionRepository;
+    private final OperacionRepository operacionRepository;
 
     @Autowired
     public OperacionService(OperacionRepository operacionRepository) {
@@ -26,7 +26,7 @@ public class OperacionService {
         log.setDetalles(detalles);
         log.setFecha(new Date());
         System.out.println(log.getId());
-        operacionRepository.save(log);
+        operacionRepository.save(log);//guarda en elasticsearch
     }
 
 
