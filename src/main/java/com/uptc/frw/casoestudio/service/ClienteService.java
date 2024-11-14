@@ -12,7 +12,6 @@ public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
-    @Autowired
     private ClienteService clienteService;
 
     public List<Cliente> listarClientes() {
@@ -37,9 +36,6 @@ public class ClienteService {
         clienteRepository.deleteById((long)id);
     }
 
-    public Cliente saveCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
-    }
     public Cliente updateCliente(long id, Cliente clienteActualizado) {
         Optional<Cliente> clienteExistenteOpt = clienteRepository.findById(id);
 
@@ -55,9 +51,5 @@ public class ClienteService {
         }
     }
 
-
-    public Cliente findById() {
-        return clienteRepository.findById(1L).orElse(null);
-    }
 
 }

@@ -13,8 +13,9 @@ import java.util.List;
 @RequestMapping("clientes")
 public class ClienteController {
 
-
+    @Autowired
     private final ClienteService clienteService;
+    @Autowired
     private final OperacionService operacionService;
 
     @Autowired
@@ -32,13 +33,13 @@ public class ClienteController {
     @GetMapping("/{id}")
     public Cliente buscarClientePorId(@PathVariable long id) {
         operacionService.registrarLog("cliente", "get", "Consultar cliente por id: " + id);
-        return clienteService.findById();
+        return clienteService.findById((int) id);
     }
 
     @PostMapping
     public Cliente crearCliente(@RequestBody Cliente cliente) {
         operacionService.registrarLog("cliente", "post", "Crear cliente: "+ cliente);
-        return clienteService.saveCliente(cliente);
+        return clienteService.save(cliente);
     }
 
     @DeleteMapping("/{id}")
