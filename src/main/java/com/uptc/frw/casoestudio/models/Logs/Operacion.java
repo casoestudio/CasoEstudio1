@@ -18,7 +18,8 @@ public class Operacion {
     private String detalles;
     private Date fecha;
 
-    public Operacion() {}
+    public Operacion() {
+    }
 
     public Operacion(String id, String entidad, String operacion, String detalles, Date fecha) {
         this.id = id;
