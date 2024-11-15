@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/ordenes-compra")
+@RequestMapping("ordenescompra")
 public class OrdenCompraController {
     @Autowired
     private OrdenCompraService ordenCompraService;

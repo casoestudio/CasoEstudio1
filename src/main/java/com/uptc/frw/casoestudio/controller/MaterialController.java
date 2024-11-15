@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/materiales")
+@RequestMapping("materiales")
 public class MaterialController {
 
     @Autowired
