@@ -12,10 +12,10 @@ import java.util.Optional;
 @Service
 public class OrdenDetalleService {
 
-
+    @Autowired
     private OrdenDetalleRepository ordenDetalleRepository;
 
-    @Autowired
+
     public OrdenDetalleService(OrdenDetalleRepository ordenDetalleRepository) {
         this.ordenDetalleRepository = ordenDetalleRepository;
     }

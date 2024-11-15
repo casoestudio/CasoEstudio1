@@ -12,10 +12,12 @@ import java.util.List;
 @RequestMapping("/api/productos")
 public class ProductoController {
 
+    @Autowired
     private final ProductoService productoService;
+    @Autowired
     private final OperacionService operacionService;
 
-    @Autowired
+
     public ProductoController(ProductoService productoService, OperacionService operacionService) {
         this.productoService = productoService;
         this.operacionService = operacionService;

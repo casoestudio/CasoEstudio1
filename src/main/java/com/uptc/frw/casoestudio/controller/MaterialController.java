@@ -13,10 +13,13 @@ import java.util.Optional;
 @RequestMapping("/materiales")
 public class MaterialController {
 
+    @Autowired
     private final MaterialService materialService;
+    @Autowired
     private final OperacionService operacionService;
 
-    @Autowired
+
+
     public MaterialController(MaterialService materialService, OperacionService operacionService) {
         this.materialService = materialService;
         this.operacionService = operacionService;

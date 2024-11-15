@@ -12,11 +12,12 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/orden-detalles")
 public class OrdenDetalleController {
-
+    @Autowired
     private final OrdenDetalleService ordenDetalleService;
+    @Autowired
     private final OperacionService operacionService;
 
-    @Autowired
+
     public OrdenDetalleController(OrdenDetalleService ordenDetalleService, OperacionService operacionService) {
         this.ordenDetalleService = ordenDetalleService;
         this.operacionService = operacionService;

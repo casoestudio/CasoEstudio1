@@ -11,6 +11,7 @@ import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @Service
 public class Maquinaservice {
+
     @Autowired
     private MaquinaRepository maquinaRepository;
 

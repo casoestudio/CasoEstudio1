@@ -18,7 +18,7 @@ public class ClienteController {
     @Autowired
     private final OperacionService operacionService;
 
-    @Autowired
+
    public ClienteController(ClienteService clienteService, OperacionService operacionService) {
         this.clienteService = clienteService;
         this.operacionService = operacionService;

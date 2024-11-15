@@ -3,15 +3,18 @@ package com.uptc.frw.casoestudio.service;
 import com.uptc.frw.casoestudio.models.Material;
 import com.uptc.frw.casoestudio.repository.MaterialRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
 public class MaterialService {
 
+    @Autowired
     private final MaterialRepository materialRepository;
 
-    @Autowired
+
     public MaterialService(MaterialRepository materialRepository) {
         this.materialRepository = materialRepository;
     }
